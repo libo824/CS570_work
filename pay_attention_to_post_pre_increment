@@ -1,0 +1,70 @@
+// CS570_work
+
+#include <iostream>
+#include <vector>
+#include <string>
+#include <array>
+
+using namespace std;
+template<typename T,typename rValue>
+class myIterator
+{
+	T* itr;
+	int index;
+public:
+	
+	myIterator(T*container,int a) {
+		itr = container;
+		index = a;
+		 
+	};
+	~myIterator() { 
+		
+	};
+	bool operator == (myIterator refr) {
+		return index == refr.index;
+	};
+	rValue & operator *() {
+		
+		return (*itr)[index];
+	}
+	myIterator & operator ++() {
+		++index;
+		return *this;
+	};
+	myIterator  operator ++(int){	//post increment	
+		myIterator  tmp = *this;
+		this->operator++(); // Call pre-increment on this.
+		return tmp;
+	}
+	myIterator & operator--() {
+		index--;
+		return *this;
+	}
+	bool operator != (myIterator refr) {
+		return index != refr.index;
+	}
+	myIterator & operator =(rValue other) {
+		 *itr[index] = other;
+		 return *this;
+	}
+};
+
+int main()
+{
+	vector<string> myVector{"a","b","c","d","e","f","g","h","i","j"};
+
+	
+	myIterator<vector<string>,string> itr(&myVector, 0);
+	myIterator<vector<string>,string> itr2(&myVector, 5);
+	auto end = myIterator<vector<string>, string>(&myVector, myVector.size());
+	for (; itr != end; itr++) {
+		cout << *itr << endl;
+	}
+	cout << "out put the 6th vector should be 'g' " << endl;
+	cout << *++itr2 << endl;
+	cout << "out put the 6th vector(because of post increment) should be 'g' " << endl;
+	cout << *itr2++ << endl;
+	
+	return 0;
+}
